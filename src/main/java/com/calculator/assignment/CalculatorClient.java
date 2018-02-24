@@ -7,12 +7,13 @@ import org.apache.log4j.Logger;
 import com.calculator.assignment.utils.LogUtils;
 
 public class CalculatorClient {
-    private final static Logger LOGGER = Logger.getRootLogger();
+    private final static Logger LOGGER = Logger.getLogger(CalculatorClient.class);
 
     public static void main(String[] args) throws Exception {
         try {
             if (args.length == 0) {
-                LOGGER.error("Valid command to use this calculator: java -jar <target/calculator-jar-with-dependencies.jar> <expression> <optional log level>");
+                LOGGER.error(
+                        "Valid command to use this calculator: java -jar <target/calculator-jar-with-dependencies.jar> <expression> <optional log level>");
                 throw new Exception("No arguments supplied to run this program.");
             }
 

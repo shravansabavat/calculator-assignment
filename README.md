@@ -8,6 +8,8 @@
 > java -jar target/calculator-jar-with-dependencies.jar "mult(add(2, 2), div(9, 3))"
 > java -jar target/calculator-jar-with-dependencies.jar "let(a, 5, let(b, mult(a, 10), add(b, a)))"
 > java -jar target/calculator-jar-with-dependencies.jar "let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b))"
+> java -jar target/calculator-jar-with-dependencies.jar "let(a, -5, let(b, mult(a, -10), add(b, a)))"
+> java -jar target/calculator-jar-with-dependencies.jar "let(a, let(b, -10, add(b, b)), let(b, 20, add(a, b))"
 ```
 
 ## Operators supported
