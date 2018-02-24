@@ -12,9 +12,8 @@ public class CalculatorClient {
     public static void main(String[] args) throws Exception {
         try {
             if (args.length == 0) {
-                String message = "Valid command to use this calculator: java -jar <target/calculator-1.0.0.jar> <expression> <optional log level>";
-                LOGGER.error(message);
-                throw new Exception(message);
+                LOGGER.error("Valid command to use this calculator: java -jar <target/calculator-jar-with-dependencies.jar> <expression> <optional log level>");
+                throw new Exception("No arguments supplied to run this program.");
             }
 
             if (args.length > 1) {
