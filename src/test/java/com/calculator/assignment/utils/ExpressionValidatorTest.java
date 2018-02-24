@@ -1,7 +1,9 @@
-package com.calculator.assignment;
+package com.calculator.assignment.utils;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.calculator.assignment.utils.ExpressionEvaluationUtils;
 
 public class ExpressionValidatorTest {
 

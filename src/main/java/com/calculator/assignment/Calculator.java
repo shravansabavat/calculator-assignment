@@ -1,15 +1,17 @@
 package com.calculator.assignment;
 
-import static com.calculator.assignment.ExpressionEvaluationUtils.VARIABLE_REGEX;
-import static com.calculator.assignment.ExpressionEvaluationUtils.isOperator;
-import static com.calculator.assignment.ExpressionEvaluationUtils.isPlainVariable;
-import static com.calculator.assignment.ExpressionEvaluationUtils.validate;
+import static com.calculator.assignment.utils.ExpressionEvaluationUtils.VARIABLE_REGEX;
+import static com.calculator.assignment.utils.ExpressionEvaluationUtils.isOperator;
+import static com.calculator.assignment.utils.ExpressionEvaluationUtils.isPlainVariable;
+import static com.calculator.assignment.utils.ExpressionEvaluationUtils.validate;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
 import org.apache.log4j.Logger;
+
+import com.calculator.assignment.utils.ExpressionEvaluationUtils;
 
 public class Calculator {
     private final static Logger LOGGER = Logger.getLogger(Calculator.class);

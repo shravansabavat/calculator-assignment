@@ -1,4 +1,4 @@
-package com.calculator.assignment;
+package com.calculator.assignment.utils;
 
 public class ExpressionEvaluationUtils {
 

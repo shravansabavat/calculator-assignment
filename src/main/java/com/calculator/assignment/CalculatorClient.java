@@ -29,8 +29,8 @@ public class CalculatorClient {
             }
 
             String input = args[0];
-            LOGGER.info("Evaluting the expression " + input);
-            LOGGER.info("Expression is evaluated to " + Calculator.evaluateExpression(input));
+            LOGGER.info("======= Evaluting the expression " + input + " =======");
+            LOGGER.info("======= Expression is evaluated to " + Calculator.evaluateExpression(input) + " ======= ");
         } catch (Exception exp) {
             LOGGER.error("Error while evaluating the expression", exp);
         }
