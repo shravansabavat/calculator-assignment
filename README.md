@@ -8,8 +8,6 @@
 > java -jar target/calculator-jar-with-dependencies.jar "mult(add(2, 2), div(9, 3))"
 > java -jar target/calculator-jar-with-dependencies.jar "let(a, 5, let(b, mult(a, 10), add(b, a)))"
 > java -jar target/calculator-jar-with-dependencies.jar "let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b))"
-> java -jar target/calculator-jar-with-dependencies.jar "let(a, -5, let(b, mult(a, -10), add(b, a)))"
-> java -jar target/calculator-jar-with-dependencies.jar "let(a, let(b, -10, add(b, b)), let(b, 20, add(a, b))"
 ```
 
 ## Operators supported
@@ -21,12 +19,22 @@ div
 let operator for assigning values to variables
 ```
 
-## Log levels supported
-```
-warn
-error
-info
-debug
+## Test run during the build
+```bash
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.calculator.assignment.CalculatorTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.156 sec
+Running com.calculator.assignment.utils.CalculatorUtilsTest
+2018-02-24 14:21:44 ERROR Calculator:29 - Invalid operator blah exception
+2018-02-24 14:21:45 ERROR Calculator:29 - Invalid operator ( exception
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+
+Results :
+
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
+
 ```
 
 ## Examples
