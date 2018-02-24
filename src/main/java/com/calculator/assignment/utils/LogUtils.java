@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 public class LogUtils {
     public static void setAppLogLevel(String newLevel) {
+        newLevel = newLevel.toLowerCase();
         Logger logger4j = Logger.getRootLogger();
         logger4j.setLevel(org.apache.log4j.Level.toLevel("ERROR"));
 

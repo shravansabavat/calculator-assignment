@@ -21,6 +21,13 @@ div
 let operator for assigning values to variables
 ```
 
+## Log levels supported
+```
+warn
+error
+info
+debug
+```
 
 ## Examples
 ```bash
