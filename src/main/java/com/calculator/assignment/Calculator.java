@@ -60,7 +60,6 @@ public class Calculator {
                 LOGGER.debug("Pushing " + currentValue + " into stack");
                 expression.push(currentValue);
             }
-
         }
 
         if (!expression.isEmpty() && expression.size() > 2) {
