@@ -12,9 +12,9 @@ public class CalculatorClient {
     public static void main(String[] args) throws Exception {
         try {
             if (args.length == 0) {
-                String message = "Valid command to use this calculator: java -jar <jarname> <expression> <log level>";
+                String message = "Valid command to use this calculator: java -jar <target/calculator-1.0.0.jar> <expression> <optional log level>";
                 LOGGER.error(message);
-                throw new CalculatorException(message);
+                throw new Exception(message);
             }
 
             if (args.length > 1) {
