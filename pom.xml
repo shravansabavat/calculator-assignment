@@ -48,7 +48,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.calculator.assignment.CalculatorApp</mainClass>
+                            <mainClass>com.calculator.assignment.CalculatorClient</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>

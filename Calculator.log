@@ -1,0 +1,66 @@
+2018-02-23 20:44:46 INFO  CalculatorClient:15 - Evaluting the expression mult(add(2, 2), div(9, 3))
+2018-02-23 22:18:04 WARN  root:28 - Set default logger to INFO
+2018-02-23 22:18:04 INFO  root:35 - Evaluting the expression add(1,
+2018-02-23 22:18:04 INFO  root:36 - Given expression is evaluated to 1
+2018-02-23 22:18:30 WARN  root:28 - Set default logger to INFO
+2018-02-23 22:19:33 INFO  root:35 - Evaluting the expression add(1,mult(2, 3))
+2018-02-23 22:19:33 INFO  root:36 - Given expression is evaluated to 7
+2018-02-23 22:19:50 DEBUG root:25 - Log level set to: debug
+2018-02-23 22:19:50 INFO  root:35 - Evaluting the expression add(1,mult(2, 3))
+2018-02-23 22:19:50 INFO  root:36 - Given expression is evaluated to 7
+2018-02-23 23:01:27 DEBUG root:24 - Pushing = into stack
+2018-02-23 23:01:27 DEBUG root:24 - Pushing a into stack
+2018-02-23 23:01:27 DEBUG root:24 - Pushing = into stack
+2018-02-23 23:01:27 DEBUG root:24 - Pushing b into stack
+2018-02-23 23:01:27 DEBUG root:31 - Popped b from stack
+2018-02-23 23:01:27 DEBUG root:42 - Assigning variable:b with value:10
+2018-02-23 23:01:27 DEBUG root:24 - Pushing + into stack
+2018-02-23 23:01:27 DEBUG root:31 - Popped + from stack
+2018-02-23 23:01:27 DEBUG root:45 - Pushing + into stack
+2018-02-23 23:01:27 DEBUG root:47 - Pushing b into stack
+2018-02-23 23:01:27 DEBUG root:31 - Popped b from stack
+2018-02-23 23:01:27 DEBUG root:35 - Popped + from stack
+2018-02-23 23:01:27 DEBUG root:37 - Pushing result from operation20 into stack
+2018-02-23 23:01:27 DEBUG root:24 - Pushing = into stack
+2018-02-23 23:01:27 DEBUG root:51 - Pushing b into stack
+2018-02-23 23:01:27 DEBUG root:31 - Popped b from stack
+2018-02-23 23:01:27 DEBUG root:42 - Assigning variable:b with value:20
+2018-02-23 23:01:27 DEBUG root:24 - Pushing + into stack
+2018-02-23 23:01:27 DEBUG root:51 - Pushing a into stack
+2018-02-23 23:01:27 DEBUG root:31 - Popped a from stack
+2018-02-23 23:01:27 DEBUG root:45 - Pushing a into stack
+2018-02-23 23:01:27 DEBUG root:47 - Pushing b into stack
+2018-02-23 23:01:27 DEBUG root:59 - Popped b from stack
+2018-02-23 23:01:27 DEBUG root:63 - Popped a from stack
+2018-02-23 23:01:27 DEBUG root:67 - Popped operator + from stack
+2018-02-23 23:01:27 DEBUG root:70 - Pushing result from operation40 into stack
+2018-02-23 23:08:44 DEBUG root:24 - Log level is now set to: debug
+2018-02-23 23:08:44 INFO  root:32 - Evaluting the expression add(1,mult(2, 3))
+2018-02-23 23:08:44 DEBUG root:24 - Pushing + into stack
+2018-02-23 23:08:44 DEBUG root:52 - Pushing 1 into stack
+2018-02-23 23:08:44 DEBUG root:24 - Pushing * into stack
+2018-02-23 23:08:44 DEBUG root:31 - Popped * from stack
+2018-02-23 23:08:44 DEBUG root:46 - Pushing * into stack
+2018-02-23 23:08:44 DEBUG root:48 - Pushing 2 into stack
+2018-02-23 23:08:44 DEBUG root:31 - Popped 2 from stack
+2018-02-23 23:08:44 DEBUG root:35 - Performing operation * on values 2,3from stack
+2018-02-23 23:08:44 DEBUG root:38 - Pushing result from operation6 into stack
+2018-02-23 23:08:44 DEBUG root:96 - Popped value 6 from stack
+2018-02-23 23:08:44 DEBUG root:99 - Popped value 1 from stack
+2018-02-23 23:08:44 DEBUG root:102 - Performing operation + on values 6,1from stack
+2018-02-23 23:08:44 INFO  root:33 - Expression is evaluated to 7
+2018-02-23 23:10:39 DEBUG root:24 - Log level is now set to: debug
+2018-02-23 23:10:39 INFO  root:32 - Evaluting the expression add(1,mult(2, 3))
+2018-02-23 23:10:39 DEBUG Calculator:24 - Pushing + into stack
+2018-02-23 23:10:39 DEBUG Calculator:52 - Pushing 1 into stack
+2018-02-23 23:10:39 DEBUG Calculator:24 - Pushing * into stack
+2018-02-23 23:10:39 DEBUG Calculator:31 - Popped * from stack
+2018-02-23 23:10:39 DEBUG Calculator:46 - Pushing * into stack
+2018-02-23 23:10:39 DEBUG Calculator:48 - Pushing 2 into stack
+2018-02-23 23:10:39 DEBUG Calculator:31 - Popped 2 from stack
+2018-02-23 23:10:39 DEBUG Calculator:35 - Performing operation * on values 2,3from stack
+2018-02-23 23:10:39 DEBUG Calculator:38 - Pushing result from operation6 into stack
+2018-02-23 23:10:39 DEBUG Calculator:96 - Popped value 6 from stack
+2018-02-23 23:10:39 DEBUG Calculator:99 - Popped value 1 from stack
+2018-02-23 23:10:39 DEBUG Calculator:102 - Performing operation + on values 6,1from stack
+2018-02-23 23:10:39 INFO  root:33 - Expression is evaluated to 7
