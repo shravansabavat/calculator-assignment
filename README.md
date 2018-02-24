@@ -8,12 +8,29 @@
 > java -jar target/calculator-jar-with-dependencies.jar "add(1,2)" "debug"
 ```
 
-## Sample output
-```bash
-> java -jar target/calculator-jar-with-dependencies.jar "add(1,2)"
-2018-02-24 00:19:04 INFO  root:32 - ======= Evaluting the expression add(1,2) =======
-2018-02-24 00:19:04 INFO  root:33 - ======= Expression is evaluated to 3 ======= 
+## Operators supported
 ```
+add
+sub
+mult/multi
+div
+let operator for assigning values to variables
+```
+
+
+## Examples
+```bash
+shravankumarsabavat$ java -jar target/calculator-jar-with-dependencies.jar "add(1, mult(2, 3))"
+2018-02-24 13:54:37 INFO  root:31 - ======= Evaluting the expression add(1, mult(2, 3)) =======
+2018-02-24 13:54:37 INFO  root:32 - ======= Expression is evaluated to 7 ======= 
+shravankumarsabavat$ java -jar target/calculator-jar-with-dependencies.jar "let(a, 5, let(b, mult(a, 10), add(b, a)))"
+2018-02-24 13:54:53 INFO  root:31 - ======= Evaluting the expression let(a, 5, let(b, mult(a, 10), add(b, a))) =======
+2018-02-24 13:54:53 INFO  root:32 - ======= Expression is evaluated to 55 ======= 
+shravankumarsabavat$ java -jar target/calculator-jar-with-dependencies.jar "let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b))"
+2018-02-24 13:55:06 INFO  root:31 - ======= Evaluting the expression let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b)) =======
+2018-02-24 13:55:06 INFO  root:32 - ======= Expression is evaluated to 40 ======= 
+```
+
 ```bash
 > java -jar target/calculator-jar-with-dependencies.jar "add(1,2)" "debug"
 2018-02-24 00:21:21 DEBUG root:24 - Log level is now set to: debug

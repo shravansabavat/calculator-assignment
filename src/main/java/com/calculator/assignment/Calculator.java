@@ -1,9 +1,10 @@
 package com.calculator.assignment;
 
-import static com.calculator.assignment.utils.ExpressionEvaluationUtils.VARIABLE_REGEX;
-import static com.calculator.assignment.utils.ExpressionEvaluationUtils.isOperator;
-import static com.calculator.assignment.utils.ExpressionEvaluationUtils.isPlainVariable;
-import static com.calculator.assignment.utils.ExpressionEvaluationUtils.validate;
+import static com.calculator.assignment.utils.CalculatorUtils.VARIABLE_REGEX;
+import static com.calculator.assignment.utils.CalculatorUtils.getExpressionWithOperators;
+import static com.calculator.assignment.utils.CalculatorUtils.isOperator;
+import static com.calculator.assignment.utils.CalculatorUtils.isPlainVariable;
+import static com.calculator.assignment.utils.CalculatorUtils.validateExpresion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,75 +12,75 @@ import java.util.Stack;
 
 import org.apache.log4j.Logger;
 
-import com.calculator.assignment.utils.ExpressionEvaluationUtils;
+import com.calculator.assignment.utils.CalculatorUtils;
 
 public class Calculator {
     private final static Logger LOGGER = Logger.getLogger(Calculator.class);
 
-    private static Stack<String> expression = new Stack<String>();
+    private static Stack<String> expressionTracker = new Stack<String>();
     private static Map<String, String> assignments = new HashMap<String, String>();
     private static Map<String, String> backupValues = new HashMap<String, String>();
 
     public static int evaluateExpression(String input) throws Exception {
         assignments.clear();
         backupValues.clear();
-        input = getActualExpression(input);
-        validate(input);
+        validateExpresion(input);
+        String expression = getExpressionWithOperators(input);
 
-        String[] details = input.split(",");
+        String[] details = expression.split(",");
         for (String currentValue : details) {
             if (isOperator(currentValue) || isVariable(currentValue)) {
                 LOGGER.debug("Pushing " + currentValue + " into stack");
-                expression.push(currentValue);
+                expressionTracker.push(currentValue);
                 continue;
             }
 
-            if (isNumericaValue(currentValue) && expression.size() > 1) {
-                String previousValue = expression.pop();
+            if (isNumericaValue(currentValue) && expressionTracker.size() > 1) {
+                String previousValue = expressionTracker.pop();
                 LOGGER.debug("Popped " + previousValue + " from stack");
 
-                if (isNumericaValue(previousValue) && isOperator(expression.peek())) {
-                    String operator = expression.pop();
+                if (isNumericaValue(previousValue) && isOperator(expressionTracker.peek())) {
+                    String operator = expressionTracker.pop();
                     LOGGER.debug("Performing operation " + operator + " on values " + previousValue + "," + currentValue
                             + "from stack");
                     currentValue = performOperation(operator, previousValue, currentValue) + "";
                     LOGGER.debug("Pushing result from operation" + currentValue + " into stack");
-                    expression.push(currentValue);
+                    expressionTracker.push(currentValue);
                     evaluatePossibleExpressions();
-                } else if (canAssignVariable(previousValue) && isAssignment(expression.peek())) {
-                    expression.pop();
+                } else if (canAssignVariable(previousValue) && isAssignment(expressionTracker.peek())) {
+                    expressionTracker.pop();
                     LOGGER.debug("Assigning variable:" + previousValue + " with value:" + currentValue);
                     assignValue(previousValue, currentValue);
                 } else {
                     LOGGER.debug("Pushing " + previousValue + " into stack");
-                    expression.push(previousValue);
+                    expressionTracker.push(previousValue);
                     LOGGER.debug("Pushing " + currentValue + " into stack");
-                    expression.push(currentValue);
+                    expressionTracker.push(currentValue);
                 }
             } else {
                 LOGGER.debug("Pushing " + currentValue + " into stack");
-                expression.push(currentValue);
+                expressionTracker.push(currentValue);
             }
         }
 
-        if (!expression.isEmpty() && expression.size() > 2) {
-            String first = expression.pop();
+        if (!expressionTracker.isEmpty() && expressionTracker.size() > 2) {
+            String first = expressionTracker.pop();
             LOGGER.debug("Popped " + first + " from stack");
             String currentValue = getValue(first);
-            while (expression.size() > 1) {
-                String second = expression.pop();
+            while (expressionTracker.size() > 1) {
+                String second = expressionTracker.pop();
                 LOGGER.debug("Popped " + second + " from stack");
                 String previousValue = getValue(second);
-                if (isOperator(expression.peek())) {
-                    String operator = expression.pop();
+                if (isOperator(expressionTracker.peek())) {
+                    String operator = expressionTracker.pop();
                     currentValue = performOperation(operator, currentValue, previousValue) + "";
-                    expression.push(currentValue);
+                    expressionTracker.push(currentValue);
                     LOGGER.debug("Pushing result from operation" + currentValue + " into stack");
                 }
             }
         }
 
-        return Integer.parseInt(expression.pop());
+        return Integer.parseInt(expressionTracker.pop());
     }
 
     private static String getValue(String variable) {
@@ -97,32 +98,32 @@ public class Calculator {
 
     private static void evaluatePossibleExpressions() {
         boolean canEvaluateFurther = true;
-        while (canEvaluateFurther && expression.size() > 2) {
-            String currentValue = expression.pop();
+        while (canEvaluateFurther && expressionTracker.size() > 2) {
+            String currentValue = expressionTracker.pop();
             LOGGER.debug("Popped value " + currentValue + " from stack");
-            if (isNumericaValue(currentValue) && expression.size() > 1) {
-                String previousValue = expression.pop();
+            if (isNumericaValue(currentValue) && expressionTracker.size() > 1) {
+                String previousValue = expressionTracker.pop();
                 LOGGER.debug("Popped value " + previousValue + " from stack");
-                if (isNumericaValue(previousValue) && isOperator(expression.peek())) {
-                    String operator = expression.pop();
+                if (isNumericaValue(previousValue) && isOperator(expressionTracker.peek())) {
+                    String operator = expressionTracker.pop();
                     currentValue = performOperation(operator, currentValue, previousValue) + "";
-                    expression.push(currentValue);
+                    expressionTracker.push(currentValue);
                     evaluatePossibleExpressions();
 
-                } else if (isVariable(previousValue) && isAssignment(expression.peek())) {
-                    expression.pop();
+                } else if (isVariable(previousValue) && isAssignment(expressionTracker.peek())) {
+                    expressionTracker.pop();
                     assignValue(previousValue, currentValue);
                 } else {
-                    expression.push(previousValue);
-                    expression.push(currentValue);
+                    expressionTracker.push(previousValue);
+                    expressionTracker.push(currentValue);
                 }
             } else {
-                expression.push(currentValue);
+                expressionTracker.push(currentValue);
                 canEvaluateFurther = false;
             }
         }
 
-        if (expression.isEmpty()) {
+        if (expressionTracker.isEmpty()) {
             backupValues.putAll(assignments);
             assignments.clear();
         }
@@ -149,21 +150,7 @@ public class Calculator {
 
     private static boolean isNumericaValue(String str) {
         str = assignments.get(str) != null ? assignments.get(str) : str;
-        return ExpressionEvaluationUtils.isNumeric(str);
-    }
-
-    public static String getActualExpression(String input) {
-        input = input.trim();
-        String expressionWithOperatos = input.replace(" ", "").toLowerCase();
-        expressionWithOperatos = expressionWithOperatos.replace("(", ",");
-        expressionWithOperatos = expressionWithOperatos.replace(")", "");
-        expressionWithOperatos = expressionWithOperatos.replace("(", ",");
-        expressionWithOperatos = expressionWithOperatos.replace("let", "=");
-        expressionWithOperatos = expressionWithOperatos.replace("add", "+");
-        expressionWithOperatos = expressionWithOperatos.replace("sub", "-");
-        expressionWithOperatos = expressionWithOperatos.replace("mult", "*");
-        expressionWithOperatos = expressionWithOperatos.replace("div", "/");
-        return expressionWithOperatos;
+        return CalculatorUtils.isNumeric(str);
     }
 
     private static int performOperation(String operator, String first, String second) {
