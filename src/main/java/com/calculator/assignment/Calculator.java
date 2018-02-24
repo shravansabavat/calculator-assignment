@@ -1,5 +1,10 @@
 package com.calculator.assignment;
 
+import static com.calculator.assignment.ExpressionEvaluationUtils.VARIABLE_REGEX;
+import static com.calculator.assignment.ExpressionEvaluationUtils.isOperator;
+import static com.calculator.assignment.ExpressionEvaluationUtils.isPlainVariable;
+import static com.calculator.assignment.ExpressionEvaluationUtils.validate;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -13,10 +18,11 @@ public class Calculator {
     private static Map<String, String> assignments = new HashMap<String, String>();
     private static Map<String, String> backupValues = new HashMap<String, String>();
 
-    public static int evaluateExpression(String input) {
+    public static int evaluateExpression(String input) throws Exception {
         assignments.clear();
         backupValues.clear();
         input = getActualExpression(input);
+        validate(input);
 
         String[] details = input.split(",");
         for (String currentValue : details) {
@@ -133,29 +139,16 @@ public class Calculator {
     }
 
     private static boolean isVariable(String str) {
-        return str.matches("[a-zA-Z]") && !assignments.containsKey(str) && !backupValues.containsKey(str);
+        return str.matches(VARIABLE_REGEX) && !assignments.containsKey(str) && !backupValues.containsKey(str);
     }
 
     private static boolean canAssignVariable(String str) {
-        return str.matches("[a-zA-Z]") && !assignments.containsKey(str);
-    }
-
-    private static boolean isPlainVariable(String str) {
-        return str.matches("[a-zA-Z]");
-    }
-
-    private static boolean isOperator(String str) {
-        return "=+-/*".contains(str);
+        return str.matches(VARIABLE_REGEX) && !assignments.containsKey(str);
     }
 
     private static boolean isNumericaValue(String str) {
         str = assignments.get(str) != null ? assignments.get(str) : str;
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
+        return ExpressionEvaluationUtils.isNumeric(str);
     }
 
     public static String getActualExpression(String input) {
