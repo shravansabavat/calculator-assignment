@@ -5,10 +5,15 @@
 > cd calculator-assignment
 > mvn clean install
 > java -jar target/calculator-jar-with-dependencies.jar "add(1,2)" "debug"
+//expected 3
 > java -jar target/calculator-jar-with-dependencies.jar "mult(add(2, 2), div(9, 3))"
+//expected 12
 > java -jar target/calculator-jar-with-dependencies.jar "let(a, 5, let(b, mult(a, 10), add(b, a)))"
+//expected 55
 > java -jar target/calculator-jar-with-dependencies.jar "let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b))"
+//expected 40
 > java -jar target/calculator-jar-with-dependencies.jar "let(e,50),let(d,20),let(a, 5, let(b, mult(a, 10), let(c,10, add(c,d))), add(e,a)"
+//expected 65
 ```
 
 ## Operators supported
