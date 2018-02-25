@@ -17,13 +17,11 @@ import com.calculator.assignment.utils.CalculatorUtils;
 public class Calculator {
     private final static Logger LOGGER = Logger.getLogger(Calculator.class);
 
-    private static Stack<String> expressionTracker = new Stack<String>();
-    private static Map<String, String> assignments = new HashMap<String, String>();
-    private static Map<String, String> backupValues = new HashMap<String, String>();
+    private Stack<String> expressionTracker = new Stack<String>();
+    private Map<String, String> assignments = new HashMap<String, String>();
+    private Map<String, String> backupValues = new HashMap<String, String>();
 
-    public static int evaluateExpression(String input) throws Exception {
-        assignments.clear();
-        backupValues.clear();
+    public int evaluateExpression(String input) throws Exception {
         validateExpresion(input);
         String expression = getExpressionWithOperators(input);
 
@@ -83,7 +81,7 @@ public class Calculator {
         return Integer.parseInt(expressionTracker.pop());
     }
 
-    private static String getValue(String variable) {
+    private String getValue(String variable) {
         String value = assignments.get(variable);
         if (value == null) {
             value = backupValues.get(variable);
@@ -96,7 +94,7 @@ public class Calculator {
         return value;
     }
 
-    private static void evaluatePossibleExpressions() {
+    private void evaluatePossibleExpressions() {
         boolean canEvaluateFurther = true;
         while (canEvaluateFurther && expressionTracker.size() > 2) {
             String currentValue = expressionTracker.pop();
@@ -129,7 +127,7 @@ public class Calculator {
         }
     }
 
-    private static void assignValue(String variable, String value) {
+    private void assignValue(String variable, String value) {
         if (isNumericaValue(value)) {
             assignments.put(variable, value);
             backupValues.remove(variable);
@@ -140,20 +138,20 @@ public class Calculator {
         return "=".equals(str);
     }
 
-    private static boolean isVariable(String str) {
+    private boolean isVariable(String str) {
         return str.matches(VARIABLE_REGEX) && !assignments.containsKey(str) && !backupValues.containsKey(str);
     }
 
-    private static boolean canAssignVariable(String str) {
+    private boolean canAssignVariable(String str) {
         return str.matches(VARIABLE_REGEX) && !assignments.containsKey(str);
     }
 
-    private static boolean isNumericaValue(String str) {
+    private boolean isNumericaValue(String str) {
         str = assignments.get(str) != null ? assignments.get(str) : str;
         return CalculatorUtils.isNumeric(str);
     }
 
-    private static int performOperation(String operator, String first, String second) {
+    private int performOperation(String operator, String first, String second) {
         if (isPlainVariable(first)) {
             first = assignments.get(first);
         }
