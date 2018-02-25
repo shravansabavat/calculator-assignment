@@ -15,6 +15,8 @@
 > java -jar target/calculator-jar-with-dependencies.jar "let(e,50),let(d,20),let(a, 5, let(b, mult(a, 10), let(c,10, add(c,d))), add(e,a)"
 //expected 65
 ```
+### Here is the travis build for this project
+https://travis-ci.org/shravansabavat/calculator-assignment
 
 ## Operators supported
 ```
@@ -68,7 +70,3 @@ shravankumarsabavat$ java -jar target/calculator-jar-with-dependencies.jar "let(
 2018-02-24 00:21:21 DEBUG Calculator:194 - Result of operation + on values 1,2 is 3
 2018-02-24 00:21:21 DEBUG Calculator:46 - Pushing result from operation3 into stack
 ```
-
-### Here is the travis build for this project
-
-https://travis-ci.org/shravansabavat/calculator-assignment
