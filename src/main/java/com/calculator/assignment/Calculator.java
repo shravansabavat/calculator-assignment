@@ -4,7 +4,7 @@ import static com.calculator.assignment.utils.CalculatorUtils.VARIABLE_REGEX;
 import static com.calculator.assignment.utils.CalculatorUtils.getExpressionWithOperators;
 import static com.calculator.assignment.utils.CalculatorUtils.isOperator;
 import static com.calculator.assignment.utils.CalculatorUtils.isPlainVariable;
-import static com.calculator.assignment.utils.CalculatorUtils.validateExpresion;
+import static com.calculator.assignment.utils.CalculatorUtils.validateVerboseExpresion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class Calculator {
     private Map<String, String> backupValues = new HashMap<String, String>();
 
     public int evaluateExpression(String input) throws Exception {
-        validateExpresion(input);
+        validateVerboseExpresion(input);
         String expression = getExpressionWithOperators(input);
 
         String[] details = expression.split(",");

@@ -13,7 +13,7 @@ public class CalculatorUtils {
     private final static Logger LOGGER = Logger.getLogger(Calculator.class);
     public static final String VARIABLE_REGEX = "^[a-zA-Z]*$";
 
-    public static void validateExpresion(String input) throws Exception {
+    public static void validateVerboseExpresion(String input) throws Exception {
         Stack<String> validatorStack = new Stack<String>();
         input = getExpressionToValidate(input);
         String[] details = input.split(",");
