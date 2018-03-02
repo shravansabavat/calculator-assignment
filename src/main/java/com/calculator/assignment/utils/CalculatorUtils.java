@@ -24,6 +24,15 @@ public class CalculatorUtils {
                 LOGGER.error(message);
                 throw new InvalidExpressionException(message);
             }
+
+            if (!isNumeric(currentValue) && !isPlainVariable(currentValue) & !isOperator(currentValue)
+                    & !"(".equals(currentValue) & !")".equals(currentValue)) {
+                String message = "Cannot parse the expression, invalid character " + currentValue
+                        + " in the expression";
+                LOGGER.error(message);
+                throw new InvalidExpressionException(message);
+            }
+
             if ("(".equals(currentValue)) {
                 if (!isOperator(previous)) {
                     String message = "Invalid operator " + previous + " exception";
@@ -56,11 +65,6 @@ public class CalculatorUtils {
             }
             previous = currentValue;
         }
-
-        // if (!validatorStack.isEmpty()) {
-        // throw new InvalidExpressionException("Invalid expression, more
-        // additional ( in the expression " + input);
-        // }
     }
 
     public static boolean isNumeric(String str) {

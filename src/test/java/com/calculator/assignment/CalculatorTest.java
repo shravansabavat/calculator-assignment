@@ -89,6 +89,11 @@ public class CalculatorTest {
 
     @Test(expected = InvalidExpressionException.class)
     public void evaluateExpressionShouldThrowExcecptionForInvalidExpression5() throws Exception {
+        calculator.evaluateExpression("add(@,3)");
+    }
+
+    @Test(expected = InvalidExpressionException.class)
+    public void evaluateExpressionShouldThrowExcecptionForInvalidCharacterInExpression() throws Exception {
         calculator.evaluateExpression("let(b,add(2,3)), let(c, 10), let(d), let(e, add(b,c), add(e,d))");
     }
 
