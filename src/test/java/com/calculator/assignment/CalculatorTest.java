@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.calculator.assignment.exceptions.InvalidExpressionException;
+
 public class CalculatorTest {
     private Calculator calculator = null;
 
@@ -25,6 +27,7 @@ public class CalculatorTest {
         assertEquals(7, calculator.evaluateExpression("add(1, mult(2, 3))"));
         assertEquals(16, calculator.evaluateExpression("add(10, mult(2, 3))"));
         assertEquals(37, calculator.evaluateExpression("add(1, mult(12, 3))"));
+        assertEquals(1, calculator.evaluateExpression("add(1, mult(0, 3))"));
     }
 
     @Test
@@ -51,11 +54,46 @@ public class CalculatorTest {
 
     @Test
     public void evaluateExpressionShouldEvaluateWithThreeAssignments() throws Exception {
-        assertEquals(40, calculator.evaluateExpression("let(a, let(b, 10, add(b, b)), let(b, 20, add(a, b))"));
+        assertEquals(40, calculator.evaluateExpression("let(a, let(b, 10, add(b, b)), let(b,20, add(a, b))"));
     }
 
     @Test
     public void evaluateExpressionShouldEvaluateWithThreeAssignmentsAndNegativeValues() throws Exception {
         assertEquals(0, calculator.evaluateExpression("let(a, let(b, -10, add(b, b)), let(b, 20, add(a, b))"));
+    }
+
+    @Test(expected = InvalidExpressionException.class)
+    public void evaluateExpressionShouldThrowExcecptionForInvalidExpression() throws Exception {
+        calculator.evaluateExpression("let(let(a,1),1,2)");
+    }
+
+    @Test
+    public void evaluateExpressionShouldEvaluateExpressionProperly() throws Exception {
+        assertEquals(2, calculator.evaluateExpression("let(b, let(a,1), a), add(a, b)"));
+    }
+
+    @Test(expected = InvalidExpressionException.class)
+    public void evaluateExpressionShouldThrowExcecptionForInvalidExpression2() throws Exception {
+        calculator.evaluateExpression("add(2,,,3)");
+    }
+
+    @Test(expected = InvalidExpressionException.class)
+    public void evaluateExpressionShouldThrowExcecptionForInvalidExpression3() throws Exception {
+        calculator.evaluateExpression("add(2,3))");
+    }
+
+    @Test(expected = InvalidExpressionException.class)
+    public void evaluateExpressionShouldThrowExcecptionForInvalidExpression4() throws Exception {
+        calculator.evaluateExpression("add((2,3)");
+    }
+
+    @Test(expected = InvalidExpressionException.class)
+    public void evaluateExpressionShouldThrowExcecptionForInvalidExpression5() throws Exception {
+        calculator.evaluateExpression("let(b,add(2,3)), let(c, 10), let(d), let(e, add(b,c), add(e,d))");
+    }
+
+    @Test
+    public void evaluateExpressionShouldThrowExcecptionForInvalidExpression6() throws Exception {
+        calculator.evaluateExpression("let(b,add(2,3)), let(c, 10), let(d, 5), let(e, add(b,c)), add(e,d)");
     }
 }

@@ -1,13 +1,12 @@
 package com.calculator.assignment.utils;
 
-import java.util.Arrays;
 import java.util.Stack;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.calculator.assignment.Calculator;
 import com.calculator.assignment.exceptions.InvalidExpressionException;
-import com.calculator.assignment.exceptions.InvalidOperatorException;
 
 public class CalculatorUtils {
     private final static Logger LOGGER = Logger.getLogger(Calculator.class);
@@ -18,16 +17,18 @@ public class CalculatorUtils {
         input = getExpressionToValidate(input);
         String[] details = input.split(",");
 
-        String[] validStrings = Arrays.stream(details).filter(value -> value != null && value.length() > 0)
-                .toArray(size -> new String[size]);
-
         String previous = null;
-        for (String currentValue : validStrings) {
+        for (String currentValue : details) {
+            if (StringUtils.isEmpty(currentValue)) {
+                String message = "Cannot parse the expression, expression has empty values";
+                LOGGER.error(message);
+                throw new InvalidExpressionException(message);
+            }
             if ("(".equals(currentValue)) {
                 if (!isOperator(previous)) {
                     String message = "Invalid operator " + previous + " exception";
                     LOGGER.error(message);
-                    throw new InvalidOperatorException(message);
+                    throw new InvalidExpressionException(message);
                 }
                 validatorStack.push(currentValue);
             } else if (")".equals(currentValue)) {
@@ -38,11 +39,13 @@ public class CalculatorUtils {
                 }
 
                 if (validatorStack.empty()) {
-                    throw new Exception("");
+                    throw new InvalidExpressionException(
+                            "Invalid expression, more additional ) in the expression " + input);
                 } else if ("(".equals(validatorStack.peek())) {
                     validatorStack.pop();
                 } else {
-                    throw new Exception("");
+                    throw new InvalidExpressionException(
+                            "Invalid expression, more additional ) in the expression " + input);
                 }
             } else if (isPlainVariable(currentValue) && isNumeric(currentValue)) {
                 if (!previous.equals("(")) {
@@ -53,6 +56,11 @@ public class CalculatorUtils {
             }
             previous = currentValue;
         }
+
+        // if (!validatorStack.isEmpty()) {
+        // throw new InvalidExpressionException("Invalid expression, more
+        // additional ( in the expression " + input);
+        // }
     }
 
     public static boolean isNumeric(String str) {
@@ -75,7 +83,7 @@ public class CalculatorUtils {
     public static String getExpressionToValidate(String input) {
         input = input.trim();
         String expressionWithOperatos = input.replace(" ", "").toLowerCase();
-        expressionWithOperatos = expressionWithOperatos.replace("(", ",(,");
+        expressionWithOperatos = expressionWithOperatos.replace("(", "(,");
         expressionWithOperatos = expressionWithOperatos.replace(")", ",)");
         expressionWithOperatos = expressionWithOperatos.replace("let", "=,");
         expressionWithOperatos = expressionWithOperatos.replace("add", "+,");

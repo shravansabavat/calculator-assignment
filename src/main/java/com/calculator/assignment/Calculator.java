@@ -12,6 +12,7 @@ import java.util.Stack;
 
 import org.apache.log4j.Logger;
 
+import com.calculator.assignment.exceptions.InvalidExpressionException;
 import com.calculator.assignment.utils.CalculatorUtils;
 
 public class Calculator {
@@ -19,7 +20,7 @@ public class Calculator {
 
     private Stack<String> expressionTracker = new Stack<String>();
     private Map<String, String> assignments = new HashMap<String, String>();
-    private Map<String, String> backupValues = new HashMap<String, String>();
+    private Map<String, String> variablesToFind = new HashMap<String, String>();
 
     public int evaluateExpression(String input) throws Exception {
         validateVerboseExpresion(input);
@@ -27,13 +28,28 @@ public class Calculator {
 
         String[] details = expression.split(",");
         for (String currentValue : details) {
+            // remove already found variable if we trying to assign again
+            if (!expressionTracker.isEmpty() && isAssignment(expressionTracker.peek())
+                    && isPlainVariable(currentValue)) {
+                assignments.remove(currentValue);
+            }
+
             if (isOperator(currentValue) || isVariable(currentValue)) {
                 LOGGER.debug("Pushing " + currentValue + " into stack");
                 expressionTracker.push(currentValue);
+
+                if (isVariable(currentValue)) {
+                    variablesToFind.put(currentValue, "");
+                }
+
                 continue;
             }
 
             if (isNumericaValue(currentValue) && expressionTracker.size() > 1) {
+                if (isAssignment(expressionTracker.peek())) {
+                    throw new InvalidExpressionException("LET operator should be folloed by a variable");
+                }
+
                 String previousValue = expressionTracker.pop();
                 LOGGER.debug("Popped " + previousValue + " from stack");
 
@@ -56,6 +72,9 @@ public class Calculator {
                     expressionTracker.push(currentValue);
                 }
             } else {
+                if (isNumericaValue(currentValue) && isAssignment(expressionTracker.peek())) {
+                    throw new InvalidExpressionException("LET operator should be folloed by a variable");
+                }
                 LOGGER.debug("Pushing " + currentValue + " into stack");
                 expressionTracker.push(currentValue);
             }
@@ -78,23 +97,32 @@ public class Calculator {
             }
         }
 
+        if (variablesToFind.size() > 0) {
+            variablesToFind.keySet().stream().forEach(variable -> {
+                LOGGER.error("Invalid expression, cannot assign variable:" + variable);
+            });
+            throw new InvalidExpressionException(input);
+        }
+
         return Integer.parseInt(expressionTracker.pop());
     }
 
-    private String getValue(String variable) {
+    private String getValue(String variable) throws InvalidExpressionException {
         String value = assignments.get(variable);
-        if (value == null) {
-            value = backupValues.get(variable);
-        }
 
         if (value == null) {
             value = variable;
         }
 
+        if (isPlainVariable(value)) {
+            String msg = "Cannot assign variable " + value + " in the expression";
+            LOGGER.error(msg);
+            throw new InvalidExpressionException(msg);
+        }
         return value;
     }
 
-    private void evaluatePossibleExpressions() {
+    private void evaluatePossibleExpressions() throws InvalidExpressionException {
         boolean canEvaluateFurther = true;
         while (canEvaluateFurther && expressionTracker.size() > 2) {
             String currentValue = expressionTracker.pop();
@@ -120,17 +148,16 @@ public class Calculator {
                 canEvaluateFurther = false;
             }
         }
-
-        if (expressionTracker.isEmpty()) {
-            backupValues.putAll(assignments);
-            assignments.clear();
-        }
     }
 
-    private void assignValue(String variable, String value) {
+    private void assignValue(String variable, String value) throws InvalidExpressionException {
         if (isNumericaValue(value)) {
+            if (isPlainVariable(value)) {
+                value = getValue(value);
+            }
             assignments.put(variable, value);
-            backupValues.remove(variable);
+
+            variablesToFind.remove(variable);
         }
     }
 
@@ -139,7 +166,7 @@ public class Calculator {
     }
 
     private boolean isVariable(String str) {
-        return str.matches(VARIABLE_REGEX) && !assignments.containsKey(str) && !backupValues.containsKey(str);
+        return str.matches(VARIABLE_REGEX) && !assignments.containsKey(str);
     }
 
     private boolean canAssignVariable(String str) {
@@ -177,5 +204,10 @@ public class Calculator {
 
         LOGGER.debug("Result of operation " + operator + " on values " + first + "," + second + " is " + result);
         return result;
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(new Calculator().evaluateExpression("let(let(a,1,2),1,2)"));
+        System.out.println(new Calculator().evaluateExpression("add(2,,,3)"));
     }
 }
